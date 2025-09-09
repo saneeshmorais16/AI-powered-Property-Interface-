@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Listings — NestDore</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Browse properties with live price guidance and relevant matches." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230ea5e9' d='M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z'/%3E%3C/svg%3E"/>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html"><span class="logo"></span>
+        <span class="brand-text"><strong>NestDore</strong><small>Property Search</small></span>
+      </a>
+      <nav class="nav-links">
+        <a href="listings.html" aria-current="page">Property_Search</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-cta">
+        <button id="themeToggle" class="btn ghost" type="button" aria-label="Toggle theme">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container section">
+    <div class="grid grid-2">
+      <!-- Filters / Left -->
+      <aside class="panel" aria-label="Filters">
+        <div class="row" style="margin-bottom:6px">
+          <h2 style="margin:0">Search</h2>
+          <button id="clearBtn" class="btn ghost" type="button">Clear</button>
+        </div>
+        <p class="muted small" style="margin:0 0 14px">Pick a city and basics, then refine.</p>
+
+        <label for="location">Location</label>
+        <select id="location" name="location"></select>
+
+        <label for="bedrooms">Bedrooms</label>
+        <input id="bedrooms" name="bedrooms" type="number" inputmode="numeric" min="0" step="1" value="2" />
+
+        <div class="grid grid-2">
+          <div>
+            <label for="minPrice">Min price (£)</label>
+            <input id="minPrice" name="minPrice" type="number" min="0" step="50" placeholder="e.g. 900" />
+          </div>
+          <div>
+            <label for="maxPrice">Max price (£)</label>
+            <input id="maxPrice" name="maxPrice" type="number" min="0" step="50" placeholder="e.g. 2200" />
+          </div>
+        </div>
+
+        <label for="propType">Property type</label>
+        <select id="propType" name="propType">
+          <option value="">Any</option>
+          <option>Studio</option>
+          <option>Apartment</option>
+          <option>Flat</option>
+          <option>House</option>
+          <option>Terrace</option>
+          <option>Semi-Detached</option>
+          <option>Detached</option>
+        </select>
+
+        <div class="grid grid-2" style="margin-top:10px">
+          <button id="predictBtn" class="btn primary full">Update results</button>
+          <button id="copyLinkBtn" class="btn ghost full" type="button" title="Copy link with filters">Copy link</button>
+        </div>
+
+        <div id="predictionBox" class="result-card hidden" aria-live="polite">
+          <div class="row">
+            <h3 style="margin:0">Estimated monthly price</h3>
+            <span class="pill" id="confidencePill">estimate</span>
+          </div>
+          <p class="pred"><strong id="predOut">£–</strong></p>
+          <p class="muted small">Guide price for the selected location and size.</p>
+        </div>
+
+        <div id="errorBox" class="alert hidden" role="alert">
+          Unable to update results. Please try again shortly.
+        </div>
+      </aside>
+
+      <!-- Results / Right -->
+      <section class="panel" aria-label="Results">
+        <div class="row">
+          <div>
+            <h2 style="margin:0">Results</h2>
+            <p id="resultMeta" class="muted small" style="margin:6px 0 0">—</p>
+          </div>
+          <div class="row" style="gap:10px">
+            <label class="small muted" for="sortBy" style="margin:0">Sort</label>
+            <select id="sortBy" aria-label="Sort results">
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+            </select>
+            <label class="small muted" for="pageSize" style="margin:0 0 0 8px">Per page</label>
+            <select id="pageSize">
+              <option>6</option>
+              <option selected>9</option>
+              <option>12</option>
+              <option>18</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="recsSkeleton" class="card-list skeleton" aria-hidden="true">
+          <div class="prop-card"></div><div class="prop-card"></div><div class="prop-card"></div>
+          <div class="prop-card"></div><div class="prop-card"></div><div class="prop-card"></div>
+        </div>
+
+        <ol id="recs" class="card-list hidden"></ol>
+
+        <!-- Pagination -->
+        <div id="pager" class="row hidden" style="margin-top:14px">
+          <button id="prevBtn" class="btn ghost" type="button">← Prev</button>
+          <div class="muted small"><span id="pageInfo">Page 1 of 1</span></div>
+          <button id="nextBtn" class="btn ghost" type="button">Next →</button>
+        </div>
+
+        <div id="emptyState" class="panel hidden" style="border-style:dashed; margin-top:12px">
+          No matches. Try widening your price range or clearing filters.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span>© <span id="year"></span> NestDore</span>
+      <span class="muted">All rights reserved</span>
+    </div>
+  </footer>
+
+  <!-- App JS -->
+  <script>
+  (function(){
+    "use strict";
+
+    const API_BASE = "http://127.0.0.1:8000";
+    const $ = id => document.getElementById(id);
+
+    // Theme toggle (persisted)
+    (function themeInit(){
+      const key="nestdore-theme", root=document.documentElement, btn=$("themeToggle");
+      const saved=localStorage.getItem(key);
+      const prefersDark=window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.setAttribute("data-theme", saved || (prefersDark ? "dark":"light"));
+      btn?.addEventListener("click", ()=> {
+        const cur=root.getAttribute("data-theme")==="dark"?"dark":"light";
+        const next=cur==="dark"?"light":"dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem(key, next);
+      });
+    })();
+
+    // Refs
+    const yearEl = $("year");
+    const locationEl = $("location");
+    const bedroomsEl = $("bedrooms");
+    const minPriceEl = $("minPrice");
+    const maxPriceEl = $("maxPrice");
+    const propTypeEl = $("propType");
+    const predictBtn = $("predictBtn");
+    const clearBtn = $("clearBtn");
+    const copyLinkBtn = $("copyLinkBtn");
+    const predictionBox = $("predictionBox");
+    const predOut = $("predOut");
+    const recs = $("recs");
+    const recsSkeleton = $("recsSkeleton");
+    const errorBox = $("errorBox");
+    const emptyState = $("emptyState");
+    const sortByEl = $("sortBy");
+    const pageSizeEl = $("pageSize");
+    const pager = $("pager");
+    const prevBtn = $("prevBtn");
+    const nextBtn = $("nextBtn");
+    const pageInfo = $("pageInfo");
+    const resultMeta = $("resultMeta");
+    yearEl.textContent = new Date().getFullYear();
+
+    // Helpers
+    const show = el => el.classList.remove("hidden");
+    const hide = el => el.classList.add("hidden");
+    const clampInt = (v, lo, hi) => Math.max(lo, Math.min(hi, parseInt(v||"0",10)));
+    const debounce = (fn, ms=350) => { let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); }; };
+
+    // Local state
+    let locationsCache = [];
+    let allItems = [];     // full list returned from API (k=60)
+    let viewItems = [];    // items after sorting
+    let pageIndex = 0;     // current page (0-based)
+
+    // API
+    async function apiLocations(){
+      const r = await fetch(`${API_BASE}/api/locations`);
+      if(!r.ok) throw new Error("locations");
+      return r.json();
+    }
+    async function apiPredict(bedrooms, location){
+      const r = await fetch(`${API_BASE}/api/predict`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ bedrooms, location })
+      });
+      if(!r.ok) throw new Error("predict");
+      return r.json();
+    }
+    async function apiRecommend(payload){
+      const r = await fetch(`${API_BASE}/api/recommend`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      if(!r.ok) throw new Error("recommend");
+      return r.json();
+    }
+
+    // URL <-> state
+    function readParams(){
+      const sp = new URLSearchParams(window.location.search);
+      return {
+        location: sp.get("location") || null,
+        bedrooms: sp.get("bedrooms") ? parseInt(sp.get("bedrooms"),10) : null,
+        min:      sp.get("min") ? parseInt(sp.get("min"),10) : null,
+        max:      sp.get("max") ? parseInt(sp.get("max"),10) : null,
+        type:     sp.get("type") || "",
+        sort:     sp.get("sort") || "price_asc",
+        size:     sp.get("size") ? parseInt(sp.get("size"),10) : 9,
+        page:     sp.get("page") ? parseInt(sp.get("page"),10) : 1
+      };
+    }
+    function writeParams(state){
+      const sp = new URLSearchParams();
+      if(state.location) sp.set("location", state.location);
+      if(Number.isFinite(state.bedrooms)) sp.set("bedrooms", String(state.bedrooms));
+      if(Number.isFinite(state.min)) sp.set("min", String(state.min));
+      if(Number.isFinite(state.max)) sp.set("max", String(state.max));
+      if(state.type) sp.set("type", state.type);
+      if(state.sort) sp.set("sort", state.sort);
+      if(state.size) sp.set("size", String(state.size));
+      sp.set("page", String(state.page || 1));
+      const newUrl = `${location.pathname}?${sp.toString()}`;
+      history.replaceState(null, "", newUrl);
+    }
+
+    // UI binding
+    function applyParamsToControls(p){
+      if(p.location) {
+        // set once locations are loaded
+        locationEl.dataset.prefill = p.location;
+      }
+      if(Number.isFinite(p.bedrooms)) bedroomsEl.value = p.bedrooms;
+      if(Number.isFinite(p.min)) minPriceEl.value = p.min;
+      if(Number.isFinite(p.max)) maxPriceEl.value = p.max;
+      if(p.type) propTypeEl.value = p.type;
+      sortByEl.value = p.sort || "price_asc";
+      pageSizeEl.value = String(p.size || 9);
+      pageIndex = Math.max(0, (p.page||1)-1);
+    }
+
+    function controlsToState(){
+      return {
+        location: locationEl.value || null,
+        bedrooms: clampInt(bedroomsEl.value, 0, 12),
+        min: minPriceEl.value ? parseInt(minPriceEl.value,10) : null,
+        max: maxPriceEl.value ? parseInt(maxPriceEl.value,10) : null,
+        type: propTypeEl.value || "",
+        sort: sortByEl.value,
+        size: parseInt(pageSizeEl.value,10) || 9,
+        page: pageIndex + 1
+      };
+    }
+
+    // Rendering
+    function sortItems(items, mode){
+      const arr = [...items];
+      if(mode === "price_desc") return arr.sort((a,b)=>b.price-a.price);
+      return arr.sort((a,b)=>a.price-b.price); // price_asc default
+    }
+
+    function renderList(){
+      const state = controlsToState();
+      // sort and paginate
+      viewItems = sortItems(allItems, state.sort);
+      const total = viewItems.length;
+      const size = state.size;
+      const pages = Math.max(1, Math.ceil(total / size));
+      pageIndex = Math.min(pageIndex, pages - 1); // clamp
+
+      const start = pageIndex * size;
+      const end = start + size;
+      const slice = viewItems.slice(start, end);
+
+      recs.innerHTML = "";
+      if(slice.length === 0){
+        hide(recs); hide(recsSkeleton); show(emptyState); hide(pager);
+      } else {
+        slice.forEach(p=>{
+          const li = document.createElement("li"); li.className = "prop-card";
+          li.innerHTML = `
+            <div class="prop-thumb"></div>
+            <div>
+              <div class="row">
+                <strong class="prop-title">${p.title}</strong>
+                <span class="pill">${p.location}</span>
+              </div>
+              <div class="prop-meta">
+                <span>Bedrooms: <b>${p.bedrooms}</b></span>
+                <span>Type: <b>${p.type}</b></span>
+                <span>Area: <b>${p.area_m2} m²</b></span>
+                <span>Price: <b>£${p.price.toLocaleString()}</b></span>
+              </div>
+            </div>`;
+          recs.appendChild(li);
+        });
+        hide(recsSkeleton); hide(emptyState); show(recs);
+        // pager
+        show(pager);
+        pageInfo.textContent = `Page ${pageIndex+1} of ${pages}`;
+        prevBtn.disabled = pageIndex === 0;
+        nextBtn.disabled = pageIndex >= pages-1;
+      }
+
+      // meta
+      resultMeta.textContent = `${total} result${total!==1?'s':''} in ${state.location || '…'}`;
+      // keep URL in sync
+      writeParams(controlsToState());
+    }
+
+    // Fetch flow
+    function startLoading(){
+      hide(recs); show(recsSkeleton); hide(emptyState); hide(errorBox);
+      predictBtn.disabled = true; predictBtn.textContent = "Updating…";
+    }
+    function stopLoading(){
+      predictBtn.disabled = false; predictBtn.textContent = "Update results";
+    }
+
+    async function fetchAndRender(){
+      try{
+        startLoading();
+        const st = controlsToState();
+        // 1) Prediction
+        const pred = await apiPredict(st.bedrooms, st.location);
+        predOut.textContent = "£" + Number(pred.estimated_price).toLocaleString();
+        show(predictionBox);
+
+        // 2) Recommendations (ask for a generous batch; paginate client-side)
+        const payload = {
+          bedrooms: st.bedrooms,
+          location: st.location,
+          predicted_price: pred.estimated_price,
+          min_price: st.min,
+          max_price: st.max,
+          property_type: st.type || null,
+          k: 60
+        };
+        const rec = await apiRecommend(payload);
+        allItems = Array.isArray(rec.items) ? rec.items : [];
+
+        // reset to first page on fresh fetch
+        pageIndex = 0;
+        renderList();
+      }catch(e){
+        console.error(e);
+        hide(recsSkeleton); hide(recs); show(emptyState);
+        show(errorBox);
+      }finally{
+        stopLoading();
+      }
+    }
+
+    // Locations
+    async function populateLocations(){
+      try{
+        locationsCache = await apiLocations();
+        locationEl.innerHTML = locationsCache.map(c=>`<option>${c}</option>`).join("");
+        // apply prefill from URL (if any)
+        const want = locationEl.dataset.prefill;
+        if(want){
+          for(let i=0;i<locationEl.options.length;i++){
+            if(locationEl.options[i].value.toLowerCase() === want.toLowerCase()){
+              locationEl.selectedIndex = i; break;
+            }
+          }
+        }else{
+          const idx = locationsCache.findIndex(c => c.toLowerCase()==="london");
+          if(idx>=0) locationEl.selectedIndex = idx;
+        }
+      }catch(e){
+        console.warn("Using fallback locations:", e);
+        const fallback = ["London","Manchester","Birmingham","Bristol","Edinburgh","Glasgow","Leeds","Liverpool"];
+        locationEl.innerHTML = fallback.map(c=>`<option>${c}</option>`).join("");
+      }
+    }
+
+    // Events
+    predictBtn.addEventListener("click", fetchAndRender);
+    clearBtn.addEventListener("click", ()=>{
+      minPriceEl.value = ""; maxPriceEl.value = ""; propTypeEl.value = "";
+      bedroomsEl.value = 2;
+      pageIndex = 0;
+      fetchAndRender();
+    });
+    copyLinkBtn.addEventListener("click", async ()=>{
+      writeParams(controlsToState());
+      try{
+        await navigator.clipboard.writeText(window.location.href);
+        copyLinkBtn.textContent = "Copied!";
+        setTimeout(()=>copyLinkBtn.textContent="Copy link", 900);
+      }catch{
+        copyLinkBtn.textContent = "Copy failed";
+        setTimeout(()=>copyLinkBtn.textContent="Copy link", 1200);
+      }
+    });
+
+    // Debounce inputs so customers can type freely
+    const debouncedUpdate = debounce(()=>{ pageIndex=0; fetchAndRender(); }, 400);
+    [bedroomsEl, minPriceEl, maxPriceEl, propTypeEl].forEach(el=>{
+      el.addEventListener("input", debouncedUpdate);
+    });
+    locationEl.addEventListener("change", ()=>{ pageIndex=0; fetchAndRender(); });
+    sortByEl.addEventListener("change", ()=> renderList());
+    pageSizeEl.addEventListener("change", ()=>{ pageIndex=0; renderList(); });
+
+    prevBtn.addEventListener("click", ()=>{ if(pageIndex>0){ pageIndex--; renderList(); } });
+    nextBtn.addEventListener("click", ()=>{ pageIndex++; renderList(); });
+
+    // Init
+    (async function init(){
+      const params = readParams();
+      applyParamsToControls(params);
+      await populateLocations();
+      // if URL didn't specify location, make sure we have a default before proceeding
+      if(!params.location) writeParams(controlsToState());
+      await fetchAndRender();
+    })();
+
+  })();
+  </script>
+</body>
+</html>

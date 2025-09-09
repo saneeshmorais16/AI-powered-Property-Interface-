@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>NestDore — Find your next home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Search properties across UK cities with clear pricing and relevant matches." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230ea5e9' d='M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z'/%3E%3C/svg%3E"/>
+  <style>
+    /* Page-specific refinements on top of styles.css */
+    .hero-wrap{padding:32px 0}
+    .search-bar{display:grid;grid-template-columns:1.2fr .8fr .8fr auto;gap:10px;align-items:end;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+    .meta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .stat-pill{display:flex;gap:8px;align-items:center;border:1px solid var(--border);background:#fff;border-radius:999px;padding:6px 10px;color:var(--sub)}
+    .cities{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .city{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);cursor:pointer}
+    .city:hover{filter:brightness(1.02)}
+    .city .thumb{height:88px;border-radius:12px;background:linear-gradient(135deg,#c7e6ff,#a5d8ff);margin-bottom:10px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .carousel{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .foot-links{display:flex;gap:14px;flex-wrap:wrap}
+    @media (max-width:1000px){.search-bar{grid-template-columns:1fr 1fr 1fr auto}.cities{grid-template-columns:repeat(2,1fr)}.carousel{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <span class="logo"></span>
+        <span class="brand-text"><strong>NestDore</strong><small>Property Search</small></span>
+      </a>
+      <nav class="nav-links">
+        <a href="listings.html">Property_Search</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-cta">
+        <button id="themeToggle" class="btn ghost" type="button" aria-label="Toggle theme">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero + Search -->
+  <section class="hero-wrap">
+    <div class="container">
+      <h1 style="margin:0 0 8px">Find your next home</h1>
+      <p class="muted" style="margin:0 0 14px">Search across major UK cities with clear pricing guidance and relevant matches.</p>
+
+      <div class="search-bar">
+        <div>
+          <label>Location</label>
+          <select id="qLocation"></select>
+        </div>
+        <div>
+          <label>Bedrooms</label>
+          <input id="qBedrooms" type="number" min="0" step="1" value="2" />
+        </div>
+        <div>
+          <label>Budget (max £)</label>
+          <input id="qMax" type="number" min="0" step="50" placeholder="e.g. 2200" />
+        </div>
+        <div>
+          <button id="qSearchBtn" class="btn primary">Search</button>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <span class="stat-pill">📍 <b id="statCities">—</b> cities</span>
+        <span class="stat-pill">💷 Estimated: <b id="qEstimate">—</b></span>
+        <a class="btn link" href="listings.html">Advanced search →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured cities -->
+  <section class="container section">
+    <div class="section-head">
+      <h2 style="margin:0">Explore cities</h2>
+      <span class="muted small">Tap a city to prefill search</span>
+    </div>
+    <div id="cityGrid" class="cities">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <!-- Latest in selected city -->
+  <section class="container section">
+    <div class="section-head">
+      <h2 style="margin:0">Latest in <span id="cityTitle">your area</span></h2>
+      <select id="sortBy" aria-label="Sort results">
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+      </select>
+    </div>
+    <div id="latestSkeleton" class="carousel">
+      <div class="prop-card"></div><div class="prop-card"></div><div class="prop-card"></div>
+    </div>
+    <ol id="latest" class="card-list hidden"></ol>
+    <div id="latestEmpty" class="panel hidden" style="border-style:dashed">No results — try a different budget or bedroom count.</div>
+  </section>
+
+  <!-- Why NestDore -->
+  <section class="container section">
+    <div class="grid grid-3">
+      <div class="card"><h3>Transparent pricing</h3><p class="muted">Preview a guide price before you shortlist.</p></div>
+      <div class="card"><h3>Relevant results</h3><p class="muted">See similar homes in the same city — no noise.</p></div>
+      <div class="card"><h3>Fast experience</h3><p class="muted">Clean UI, instant feedback, mobile-ready.</p></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span>© <span id="year"></span> NestDore</span>
+      <div class="foot-links">
+        <a class="btn link" href="listings.html">Listings</a>
+        <a class="btn link" href="about.html">About</a>
+        <a class="btn link" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App JS -->
+  <script>
+    const API_BASE = "http://127.0.0.1:8000";
+    const $ = (id) => document.getElementById(id);
+
+    // Theme toggle (persists)
+    (function(){
+      const key="nestdore-theme", root=document.documentElement, btn=document.getElementById("themeToggle");
+      const saved=localStorage.getItem(key); const prefersDark=window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.setAttribute("data-theme", saved || (prefersDark?"dark":"light"));
+      btn?.addEventListener("click", ()=>{const cur=root.getAttribute("data-theme")==="dark"?"dark":"light"; const next=cur==="dark"?"light":"dark"; root.setAttribute("data-theme",next); localStorage.setItem(key,next);});
+    })();
+
+    // DOM refs
+    const qLocation=$("qLocation"), qBedrooms=$("qBedrooms"), qMax=$("qMax"), qSearchBtn=$("qSearchBtn");
+    const qEstimate=$("qEstimate"), statCities=$("statCities"), cityGrid=$("cityGrid");
+    const latest=$("latest"), latestSkeleton=$("latestSkeleton"), latestEmpty=$("latestEmpty"), sortByEl=$("sortBy"), cityTitle=$("cityTitle");
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Helpers
+    const show = el => el.classList.remove("hidden");
+    const hide = el => el.classList.add("hidden");
+    const clampInt = (v, lo, hi) => Math.max(lo, Math.min(hi, parseInt(v||"0",10)));
+    const sortItems = (items, mode) => (mode==="price_desc" ? items.sort((a,b)=>b.price-a.price) : items.sort((a,b)=>a.price-b.price));
+
+    async function loadLocations(){
+      try{
+        const r = await fetch(`${API_BASE}/api/locations`);
+        if(!r.ok) throw new Error("locations");
+        const cities = await r.json();
+        qLocation.innerHTML = cities.map(c=>`<option>${c}</option>`).join("");
+        statCities.textContent = cities.length;
+
+        // Build featured city cards (top 8)
+        const picks = cities.slice(0,8);
+        cityGrid.innerHTML = picks.map(c=>`
+          <button class="city" data-city="${c}">
+            <div class="thumb"></div>
+            <div class="row"><strong>${c}</strong><span class="pill">Browse</span></div>
+            <div class="muted small">Popular · Apartments · Houses</div>
+          </button>
+        `).join("");
+
+        // Select London by default if present
+        const idx = cities.findIndex(c => c.toLowerCase()==="london");
+        if(idx>=0) qLocation.selectedIndex = idx;
+
+        // Click city card to prefill & refresh
+        cityGrid.querySelectorAll(".city").forEach(btn=>{
+          btn.addEventListener("click", ()=>{
+            qLocation.value = btn.dataset.city;
+            cityTitle.textContent = btn.dataset.city;
+            updateEstimateAndLatest().catch(()=>{});
+          });
+        });
+
+        // Set title
+        cityTitle.textContent = qLocation.value || "your area";
+      }catch(e){
+        // Safe fallback
+        const fallback = ["London","Manchester","Birmingham","Bristol","Edinburgh","Glasgow","Leeds","Liverpool"];
+        qLocation.innerHTML = fallback.map(c=>`<option>${c}</option>`).join("");
+        statCities.textContent = fallback.length;
+        cityGrid.innerHTML = fallback.slice(0,8).map(c=>`
+          <button class="city" data-city="${c}">
+            <div class="thumb"></div>
+            <div class="row"><strong>${c}</strong><span class="pill">Browse</span></div>
+            <div class="muted small">Popular · Apartments · Houses</div>
+          </button>
+        `).join("");
+        cityGrid.querySelectorAll(".city").forEach(btn=>{
+          btn.addEventListener("click", ()=>{
+            qLocation.value = btn.dataset.city;
+            cityTitle.textContent = btn.dataset.city;
+            updateEstimateAndLatest().catch(()=>{});
+          });
+        });
+        cityTitle.textContent = qLocation.value;
+        console.warn("Using fallback cities:", e);
+      }
+    }
+
+    async function predictPrice(bedrooms, location){
+      const r = await fetch(`${API_BASE}/api/predict`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ bedrooms, location })
+      });
+      if(!r.ok) throw new Error("predict");
+      return r.json();
+    }
+
+    async function recommend(bedrooms, location, predicted, k=6, maxPrice=null){
+      const payload = { bedrooms, location, predicted_price: predicted, k };
+      if(maxPrice) payload.max_price = maxPrice;
+      const r = await fetch(`${API_BASE}/api/recommend`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      if(!r.ok) throw new Error("recommend");
+      return r.json();
+    }
+
+    function renderLatest(items){
+      latest.innerHTML = "";
+      if(!items || items.length===0){ hide(latest); hide(latestSkeleton); show(latestEmpty); return; }
+      hide(latestSkeleton); hide(latestEmpty); show(latest);
+      items.forEach(p=>{
+        const li = document.createElement("li"); li.className="prop-card";
+        li.innerHTML = `
+          <div class="prop-thumb"></div>
+          <div>
+            <div class="row">
+              <strong class="prop-title">${p.title}</strong>
+              <span class="pill">${p.location}</span>
+            </div>
+            <div class="prop-meta">
+              <span>Bedrooms: <b>${p.bedrooms}</b></span>
+              <span>Type: <b>${p.type}</b></span>
+              <span>Area: <b>${p.area_m2} m²</b></span>
+              <span>Price: <b>£${p.price.toLocaleString()}</b></span>
+            </div>
+          </div>`;
+        latest.appendChild(li);
+      });
+    }
+
+    async function updateEstimateAndLatest(){
+      try{
+        hide(latest); show(latestSkeleton); hide(latestEmpty);
+        const bedrooms = clampInt(qBedrooms.value, 0, 8);
+        const location = qLocation.value;
+        const budgetMax = qMax.value ? parseInt(qMax.value,10) : null;
+
+        const est = await predictPrice(bedrooms, location);
+        qEstimate.textContent = "£" + Number(est.estimated_price).toLocaleString();
+
+        const rec = await recommend(bedrooms, location, est.estimated_price, 6, budgetMax);
+        const mode = sortByEl.value;
+        renderLatest(sortItems(rec.items || [], mode));
+      }catch(e){
+        console.error(e);
+        qEstimate.textContent = "—";
+        hide(latestSkeleton); hide(latest); show(latestEmpty);
+      }
+    }
+
+    // Events
+    qSearchBtn.addEventListener("click", ()=>{
+      const params = new URLSearchParams({
+        location: qLocation.value || "",
+        bedrooms: qBedrooms.value || "0",
+        max: qMax.value || ""
+      });
+      window.location.href = `listings.html?${params.toString()}`;
+    });
+    qLocation.addEventListener("change", ()=>{ cityTitle.textContent=qLocation.value; updateEstimateAndLatest().catch(()=>{}); });
+    qBedrooms.addEventListener("input", ()=>{ updateEstimateAndLatest().catch(()=>{}); });
+    qMax.addEventListener("input", ()=>{ updateEstimateAndLatest().catch(()=>{}); });
+    sortByEl.addEventListener("change", ()=>{ // re-sort current items in DOM by requerying with same inputs
+      updateEstimateAndLatest().catch(()=>{});
+    });
+
+    // Init
+    (async function init(){
+      await loadLocations();
+      await updateEstimateAndLatest();
+    })();
+  </script>
+</body>
+</html>

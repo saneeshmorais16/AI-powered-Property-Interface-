@@ -1,0 +1,201 @@
+id,title,city,bedrooms,price,area_m2,type
+1,2 Bed Zone 2 Apartment,London,2,2737,81,Apartment
+2,3 Bed Riverside Apartment,London,3,2682,87,Studio
+3,2 Bed Riverside Apartment,London,2,2739,80,Terrace
+4,Studio Bed North London Flat,London,0,2012,38,Terrace
+5,1 Bed East End Studio,London,1,1859,42,Studio
+6,3 Bed Zone 2 Apartment,London,3,2990,92,Apartment
+7,4 Bed Southwest Terrace,London,4,3913,113,Studio
+8,3 Bed North London Flat,London,3,2919,83,Semi-Detached
+9,2 Bed Southwest Terrace,London,2,2650,82,Terrace
+10,3 Bed Zone 2 Apartment,London,3,2845,83,Terrace
+11,3 Bed Flat near Canary Wharf,London,3,3311,100,Flat
+12,3 Bed Suburban House,London,3,3031,100,House
+13,3 Bed Southwest Terrace,London,3,3489,98,Semi-Detached
+14,3 Bed Zone 2 Apartment,London,3,3144,93,Semi-Detached
+15,2 Bed Suburban House,London,2,3033,75,Flat
+16,2 Bed East End Studio,London,2,2960,76,Detached
+17,Studio Bed Southwest Terrace,London,0,1111,41,House
+18,Studio Bed Southwest Terrace,London,0,1398,43,Semi-Detached
+19,1 Bed North London Flat,London,1,2153,38,Semi-Detached
+20,1 Bed Southwest Terrace,London,1,2531,63,Terrace
+21,3 Bed Zone 2 Apartment,London,3,3422,85,Flat
+22,4 Bed Flat near Canary Wharf,London,4,4067,121,Detached
+23,3 Bed North London Flat,London,3,3395,97,Semi-Detached
+24,2 Bed Riverside Apartment,London,2,2967,66,House
+25,1 Bed Suburban House,London,1,1914,36,Semi-Detached
+26,1 Bed Suburban House,London,1,1818,64,Detached
+27,1 Bed Suburban House,London,1,2319,53,Studio
+28,3 Bed Riverside Apartment,London,3,3602,94,Apartment
+29,3 Bed Riverside Apartment,London,3,3066,99,Semi-Detached
+30,2 Bed East End Studio,London,2,3116,82,Terrace
+31,4 Bed Flat near Canary Wharf,London,4,3601,124,House
+32,1 Bed Southwest Terrace,London,1,2811,39,Detached
+33,1 Bed Flat near Canary Wharf,London,1,2537,55,Studio
+34,3 Bed East End Studio,London,3,2491,103,Terrace
+35,1 Bed Southwest Terrace,London,1,1536,44,Apartment
+36,2 Bed East End Studio,London,2,2219,58,Terrace
+37,3 Bed Suburban House,London,3,3497,97,Semi-Detached
+38,2 Bed Zone 2 Apartment,London,2,2506,82,Apartment
+39,Studio Bed Zone 2 Apartment,London,0,1650,45,Terrace
+40,Studio Bed Flat near Canary Wharf,London,0,1499,34,Studio
+41,3 Bed North London Flat,London,3,3345,100,Semi-Detached
+42,1 Bed Riverside Apartment,London,1,2668,67,Terrace
+43,2 Bed Flat near Canary Wharf,London,2,2168,78,Apartment
+44,Studio Bed East End Studio,London,0,1732,27,House
+45,3 Bed Flat near Canary Wharf,London,3,2484,84,Studio
+46,2 Bed Zone 2 Apartment,London,2,3205,66,Apartment
+47,1 Bed North London Flat,London,1,2249,47,Flat
+48,1 Bed East End Studio,London,1,1999,62,Detached
+49,2 Bed Flat near Canary Wharf,London,2,3056,103,Detached
+50,4 Bed North London Flat,London,4,3539,128,Apartment
+51,2 Bed MediaCityUK Flat,Manchester,2,1816,76,Studio
+52,2 Bed Castlefield Studio,Manchester,2,1584,81,Detached
+53,1 Bed Salford Quays Apartment,Manchester,1,913,50,Detached
+54,2 Bed City Centre Apartment,Manchester,2,1611,69,Apartment
+55,2 Bed City Centre Apartment,Manchester,2,1504,62,Studio
+56,2 Bed City Centre Apartment,Manchester,2,1592,59,Apartment
+57,4 Bed City Centre Apartment,Manchester,4,2368,119,Terrace
+58,2 Bed MediaCityUK Flat,Manchester,2,1710,75,Terrace
+59,2 Bed Salford Quays Apartment,Manchester,2,1622,78,Semi-Detached
+60,2 Bed Northern Quarter Flat,Manchester,2,1756,72,Semi-Detached
+61,1 Bed Didsbury House,Manchester,1,1365,54,Semi-Detached
+62,2 Bed Castlefield Studio,Manchester,2,1377,91,Studio
+63,2 Bed MediaCityUK Flat,Manchester,2,1561,71,Terrace
+64,2 Bed MediaCityUK Flat,Manchester,2,1750,79,Studio
+65,2 Bed Didsbury House,Manchester,2,1948,83,Semi-Detached
+66,2 Bed Northern Quarter Flat,Manchester,2,1574,86,Studio
+67,3 Bed Didsbury House,Manchester,3,2259,91,Apartment
+68,1 Bed Didsbury House,Manchester,1,1423,62,Flat
+69,2 Bed Didsbury House,Manchester,2,1454,73,Semi-Detached
+70,2 Bed City Centre Apartment,Manchester,2,2080,74,Studio
+71,2 Bed MediaCityUK Flat,Manchester,2,1541,76,Flat
+72,2 Bed Northern Quarter Flat,Manchester,2,1960,74,Terrace
+73,2 Bed MediaCityUK Flat,Manchester,2,1605,78,Semi-Detached
+74,2 Bed Castlefield Studio,Manchester,2,1349,80,Apartment
+75,1 Bed City Centre Apartment,Manchester,1,1689,48,Detached
+76,3 Bed Didsbury House,Manchester,3,2111,96,Studio
+77,3 Bed Northern Quarter Flat,Manchester,3,1800,101,Terrace
+78,1 Bed MediaCityUK Flat,Manchester,1,1062,69,Detached
+79,3 Bed Castlefield Studio,Manchester,3,2005,107,Flat
+80,3 Bed MediaCityUK Flat,Manchester,3,1647,104,Flat
+81,3 Bed Castlefield Studio,Manchester,3,2230,107,Detached
+82,1 Bed MediaCityUK Flat,Manchester,1,1026,58,Flat
+83,1 Bed City Centre Apartment,Manchester,1,1062,50,Flat
+84,4 Bed Northern Quarter Flat,Manchester,4,2609,112,House
+85,4 Bed Didsbury House,Manchester,4,2182,96,Studio
+86,1 Bed Salford Quays Apartment,Manchester,1,1209,61,Studio
+87,2 Bed Salford Quays Apartment,Manchester,2,1410,74,Terrace
+88,1 Bed Northern Quarter Flat,Manchester,1,1165,59,Studio
+89,2 Bed Northern Quarter Flat,Manchester,2,1550,60,Semi-Detached
+90,4 Bed City Centre Apartment,Manchester,4,2154,114,House
+91,4 Bed City Centre Apartment,Manchester,4,2153,124,Semi-Detached
+92,3 Bed Didsbury House,Manchester,3,2129,92,House
+93,2 Bed Northern Quarter Flat,Manchester,2,1710,73,House
+94,4 Bed Salford Quays Apartment,Manchester,4,1873,107,Terrace
+95,1 Bed MediaCityUK Flat,Manchester,1,1248,54,Flat
+96,2 Bed Castlefield Studio,Manchester,2,1445,64,House
+97,2 Bed Northern Quarter Flat,Manchester,2,1842,77,Detached
+98,1 Bed Salford Quays Apartment,Manchester,1,1384,63,Semi-Detached
+99,1 Bed Didsbury House,Manchester,1,916,60,Semi-Detached
+100,1 Bed Castlefield Studio,Manchester,1,1296,55,Apartment
+101,2 Bed Bournville House,Birmingham,2,1410,76,Semi-Detached
+102,1 Bed City Core Apartment,Birmingham,1,1088,51,Apartment
+103,2 Bed Edgbaston House,Birmingham,2,1652,88,Detached
+104,3 Bed Bournville House,Birmingham,3,2331,97,Semi-Detached
+105,2 Bed Jewellery Quarter Flat,Birmingham,2,1474,58,Studio
+106,1 Bed Bournville House,Birmingham,1,1376,45,Terrace
+107,1 Bed Sutton Coldfield Semi-Detached,Birmingham,1,1093,55,Detached
+108,3 Bed City Core Apartment,Birmingham,3,2163,79,House
+109,3 Bed Sutton Coldfield Semi-Detached,Birmingham,3,1985,88,Apartment
+110,1 Bed Harborne Terrace,Birmingham,1,1081,56,Apartment
+111,2 Bed Harborne Terrace,Birmingham,2,1490,73,Flat
+112,3 Bed Sutton Coldfield Semi-Detached,Birmingham,3,2018,99,House
+113,1 Bed Bournville House,Birmingham,1,1531,56,Flat
+114,2 Bed Bournville House,Birmingham,2,1791,88,House
+115,4 Bed Jewellery Quarter Flat,Birmingham,4,2333,131,Terrace
+116,2 Bed Jewellery Quarter Flat,Birmingham,2,1577,81,House
+117,2 Bed Jewellery Quarter Flat,Birmingham,2,1265,73,Apartment
+118,1 Bed Sutton Coldfield Semi-Detached,Birmingham,1,1339,53,Flat
+119,2 Bed City Core Apartment,Birmingham,2,1711,71,House
+120,4 Bed Bournville House,Birmingham,4,2182,97,Terrace
+121,2 Bed Jewellery Quarter Flat,Birmingham,2,1751,82,Detached
+122,1 Bed Harborne Terrace,Birmingham,1,1506,54,House
+123,1 Bed Jewellery Quarter Flat,Birmingham,1,1203,59,Detached
+124,1 Bed Edgbaston House,Birmingham,1,1340,56,Terrace
+125,4 Bed Sutton Coldfield Semi-Detached,Birmingham,4,2526,108,Detached
+126,Studio Bed Edgbaston House,Birmingham,0,1030,40,Detached
+127,2 Bed Bournville House,Birmingham,2,1877,75,Studio
+128,4 Bed City Core Apartment,Birmingham,4,2315,108,Flat
+129,2 Bed City Core Apartment,Birmingham,2,1564,87,Detached
+130,4 Bed Bournville House,Birmingham,4,2310,116,Flat
+131,2 Bed City Core Apartment,Birmingham,2,1585,82,Semi-Detached
+132,Studio Bed Sutton Coldfield Semi-Detached,Birmingham,0,725,30,Studio
+133,3 Bed Bournville House,Birmingham,3,1730,101,Studio
+134,3 Bed Edgbaston House,Birmingham,3,2141,90,Flat
+135,2 Bed Jewellery Quarter Flat,Birmingham,2,1983,66,Detached
+136,1 Bed Jewellery Quarter Flat,Birmingham,1,1247,66,Detached
+137,3 Bed Harborne Terrace,Birmingham,3,2094,83,Semi-Detached
+138,2 Bed Jewellery Quarter Flat,Birmingham,2,1464,87,House
+139,3 Bed Edgbaston House,Birmingham,3,1858,89,Apartment
+140,1 Bed Bournville House,Birmingham,1,1426,42,Terrace
+141,2 Bed City Core Apartment,Birmingham,2,1849,70,Flat
+142,2 Bed Bournville House,Birmingham,2,1768,71,Flat
+143,3 Bed Edgbaston House,Birmingham,3,1989,94,Apartment
+144,1 Bed Sutton Coldfield Semi-Detached,Birmingham,1,1468,46,Apartment
+145,2 Bed Edgbaston House,Birmingham,2,1417,72,Studio
+146,1 Bed Bournville House,Birmingham,1,1408,50,Semi-Detached
+147,2 Bed Bournville House,Birmingham,2,1576,68,Semi-Detached
+148,1 Bed City Core Apartment,Birmingham,1,1160,53,Flat
+149,1 Bed Sutton Coldfield Semi-Detached,Birmingham,1,1419,56,Terrace
+150,1 Bed Bournville House,Birmingham,1,1556,56,Semi-Detached
+151,4 Bed Jesmond Flat,Newcastle,4,1894,108,Studio
+152,1 Bed Sandyford Terrace,Newcastle,1,1210,50,Semi-Detached
+153,1 Bed Ouseburn Flat,Newcastle,1,1098,57,Flat
+154,4 Bed Quayside Studio,Newcastle,4,1665,106,Studio
+155,2 Bed Quayside Studio,Newcastle,2,1401,66,Apartment
+156,1 Bed City Centre Apartment,Newcastle,1,1004,57,Studio
+157,2 Bed Jesmond Flat,Newcastle,2,1218,64,Apartment
+158,3 Bed Quayside Studio,Newcastle,3,1613,98,Apartment
+159,2 Bed Jesmond Flat,Newcastle,2,1495,65,Terrace
+160,3 Bed Sandyford Terrace,Newcastle,3,1938,82,Flat
+161,4 Bed Ouseburn Flat,Newcastle,4,2181,111,Terrace
+162,Studio Bed Ouseburn Flat,Newcastle,0,520,35,Flat
+163,Studio Bed Quayside Studio,Newcastle,0,1052,35,Apartment
+164,2 Bed Jesmond Flat,Newcastle,2,1150,71,Studio
+165,1 Bed Ouseburn Flat,Newcastle,1,1467,51,Studio
+166,1 Bed Ouseburn Flat,Newcastle,1,1432,53,Terrace
+167,3 Bed Ouseburn Flat,Newcastle,3,1733,96,Apartment
+168,1 Bed Jesmond Flat,Newcastle,1,1190,54,Studio
+169,3 Bed City Centre Apartment,Newcastle,3,1430,82,Flat
+170,1 Bed Sandyford Terrace,Newcastle,1,792,50,Flat
+171,2 Bed Ouseburn Flat,Newcastle,2,1462,65,House
+172,1 Bed Sandyford Terrace,Newcastle,1,1167,54,Semi-Detached
+173,2 Bed Heaton House,Newcastle,2,1404,88,Detached
+174,2 Bed Ouseburn Flat,Newcastle,2,1236,75,Terrace
+175,2 Bed Ouseburn Flat,Newcastle,2,2030,70,House
+176,3 Bed Heaton House,Newcastle,3,1596,103,House
+177,1 Bed Ouseburn Flat,Newcastle,1,1152,58,House
+178,2 Bed Sandyford Terrace,Newcastle,2,1187,70,Detached
+179,Studio Bed City Centre Apartment,Newcastle,0,880,40,Studio
+180,3 Bed Sandyford Terrace,Newcastle,3,1631,95,Detached
+181,2 Bed City Centre Apartment,Newcastle,2,1440,84,Terrace
+182,2 Bed Jesmond Flat,Newcastle,2,1225,75,Terrace
+183,4 Bed Quayside Studio,Newcastle,4,2037,103,Studio
+184,4 Bed Heaton House,Newcastle,4,1826,110,Apartment
+185,2 Bed Quayside Studio,Newcastle,2,1331,71,Detached
+186,2 Bed Ouseburn Flat,Newcastle,2,1614,86,House
+187,1 Bed City Centre Apartment,Newcastle,1,880,52,House
+188,1 Bed Sandyford Terrace,Newcastle,1,1017,47,Terrace
+189,3 Bed City Centre Apartment,Newcastle,3,1697,96,Detached
+190,1 Bed Heaton House,Newcastle,1,926,56,Studio
+191,3 Bed City Centre Apartment,Newcastle,3,1415,100,Semi-Detached
+192,3 Bed Sandyford Terrace,Newcastle,3,1715,86,Flat
+193,3 Bed Jesmond Flat,Newcastle,3,1964,81,Detached
+194,4 Bed City Centre Apartment,Newcastle,4,2116,115,Detached
+195,Studio Bed City Centre Apartment,Newcastle,0,487,34,Detached
+196,2 Bed City Centre Apartment,Newcastle,2,1042,67,Apartment
+197,4 Bed Quayside Studio,Newcastle,4,2289,129,Flat
+198,3 Bed Quayside Studio,Newcastle,3,1729,85,House
+199,3 Bed Quayside Studio,Newcastle,3,1796,85,Apartment
+200,2 Bed City Centre Apartment,Newcastle,2,1325,82,Semi-Detached

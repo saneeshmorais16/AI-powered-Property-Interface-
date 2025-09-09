@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Contact — NestDore</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <form id="contactForm">
+  <label>Name</label>
+  <input name="name" required placeholder="Your name" />
+  <label>Email</label>
+  <input type="email" name="email" required placeholder="you@example.com" />
+  <label>Message</label>
+  <textarea name="message" rows="6" required placeholder="How can we help?"></textarea>
+  <div style="margin-top:12px"><button class="btn primary">Send message</button></div>
+</form>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const res = await fetch("http://127.0.0.1:8000/api/contact", {
+    method: "POST", body: formData
+  });
+  if(res.ok){
+    alert("✅ Thanks, we’ll be in touch soon!");
+    e.target.reset();
+  } else {
+    alert("❌ Something went wrong. Try again.");
+  }
+});
+</script>
